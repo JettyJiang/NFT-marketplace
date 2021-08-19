@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 
+.secret
 # testing
 /coverage
 
@@ -32,3 +33,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+node_modules
+
+#Hardhat files
+cache
+artifacts
