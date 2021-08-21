@@ -4,6 +4,7 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "hardhat/console.sol";
 
 contract NFTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
@@ -53,6 +54,7 @@ contract NFTMarket is ReentrancyGuard {
             msg.value == listingPrice,
             "Price must be equal to Listing Price"
         );
+        console.log(msg.sender);
 
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -87,14 +89,12 @@ contract NFTMarket is ReentrancyGuard {
     {
         uint256 price = idToMarketItem[itemId].price;
         uint256 tokenId = idToMarketItem[itemId].tokenId;
-
         require(
             msg.value == price,
             "Please submit the asking price in order to complete the purchase"
         );
 
         idToMarketItem[itemId].seller.transfer(msg.value);
-        IERC721(nftContract).setApprovalForAll(msg.sender, true);
 
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
 
